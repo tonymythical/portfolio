@@ -26,10 +26,10 @@
                 <tbody>
                     <% users.forEach(user => { %>
                         <tr>
-                            <td style="padding: 10px; border: 1px solid #ddd;"><%= user.timestamp %></td>
-                            <td style="padding: 10px; border: 1px solid #ddd;"><%= user.firstName %> <%= user.lastName %></td>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><%= user.created_at %></td>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><%= user.name %></td>
                             <td style="padding: 10px; border: 1px solid #ddd;"><%= user.email %></td>
-                            <td style="padding: 10px; border: 1px solid #ddd;"><%= user.howWeMet %></td>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><%= user.message %></td>
                         </tr>
                     <% }) %>
                 </tbody>

@@ -1,9 +1,9 @@
 import express from "express";
 import path from "path";
+import mysql from "mysql2/promise";
 
 const app = express();
 const PORT = 3009;
-const mysql = require('mysql2');
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'your_username',
@@ -26,22 +26,19 @@ app.get("/contact", (req, res) => {
   res.render("contact");
 });
 
-app.post("/submit", (req, res) => {
-  const newEntry = {
-    firstName: req.body["first-name"],
-    lastName: req.body["last-name"],
-    email: req.body.email,
-    linkedIn: req.body.linkedin,
-    howWeMet: req.body.meet,
-    otherSpecify: req.body.other,
-    mailingList: req.body["mailing-list"] === "on",
-    format: req.body.format || "N/A",
-    timestamp: new Date().toLocaleString()
-  };
+app.post("/submit", async (req, res) => {
+  const { "first-name": firstName, "last-name": lastName, email, meet: howWeMet } = req.body;
 
-  guestbookUsers.push(newEntry);
+  try {
+    const query = 'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)';
+    const fullName = `${firstName} ${lastName}`;
+    await pool.execute(query, [fullName, email, howWeMet]);
 
-  res.render("confirmation", { user: newEntry });
+    res.render("confirmation", { user: { firstName, lastName } });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Database Error");
+  }
 });
 
 app.post('/contact', async (req, res) => {
@@ -59,9 +56,13 @@ app.post('/contact', async (req, res) => {
 });
 
 app.get('/admin', async (req, res) => {
-    const [rows] = await pool.query('SELECT * FROM contacts ORDER BY created_at DESC');
-    
-    res.render('admin', { contacts: rows });
+    try {
+        const [rows] = await pool.query('SELECT * FROM contacts ORDER BY created_at DESC');
+        res.render('admin', { users: rows }); 
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error loading admin page");
+    }
 });
 
 app.listen(PORT, () => {
