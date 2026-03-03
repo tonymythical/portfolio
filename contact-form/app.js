@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import mysql from "mysql2/promise";
 
+
 const app = express();
 const PORT = 3010;
 const pool = mysql.createPool({
@@ -12,6 +13,7 @@ const pool = mysql.createPool({
 });
 
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
