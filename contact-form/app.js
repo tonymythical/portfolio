@@ -3,6 +3,7 @@ import path from "path";
 import mysql from "mysql2/promise";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import 'dotenv/config';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -10,10 +11,10 @@ const __dirname = dirname(__filename);
 const app = express();
 const PORT = 3010;
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'Test',
-  password: 'Tonezone01',
-  database: 'portfolio_db'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME
 });
 
 app.set("view engine", "ejs");
