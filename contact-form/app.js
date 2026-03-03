@@ -9,7 +9,7 @@ const pool = mysql.createPool({
   user: 'your_username',
   password: 'your_password',
   database: 'portfolio_db'
-}).promise();
+});
 
 app.set("view engine", "ejs");
 
