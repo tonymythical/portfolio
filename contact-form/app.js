@@ -3,7 +3,7 @@ import path from "path";
 import mysql from "mysql2/promise";
 
 const app = express();
-const PORT = 3009;
+const PORT = 3010;
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'your_username',
