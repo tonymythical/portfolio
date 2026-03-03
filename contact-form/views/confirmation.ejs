@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation</title>
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="icon" type="image/x-icon" href="/styles/favicon.ico">
+</head>
+<body>
+    <%- include('partials/nav') %>
+    <main class="container">
+        <div class="contact-form">
+            <h2>Thank You, <%= user.firstName %>!</h2>
+            <p>Your message was recorded at: <strong><%= user.timestamp %></strong></p>
+        
+            <section class="submission-details">
+                <p><strong>Email:</strong> <%= user.email %></p>
+                <p><strong>How we met:</strong> <%= user.howWeMet %> <%= user.otherSpecify ? `(${user.otherSpecify})` : '' %></p>
+                <p><strong>Mailing List:</strong> <%= user.mailingList ? 'Yes' : 'No' %></p>
+            </section>
+
+            <a href="/contact">
+                <button type="button" class="submit-btn">Back to Form</button>
+            </a>
+        </div>
+    </main>
+</body>
+</html>
