@@ -33,39 +33,31 @@ app.get("/contact", (req, res) => {
 });
 
 app.post("/submit", async (req, res) => {
-  const { 
-    "first-name": firstName, 
-    "last-name": lastName, 
-    email, 
-    meet: howWeMet, 
-    other: otherSpecify,
-    "mailing-list": mailingList 
-  } = req.body;
-
-  try {
-    const fullName = `${firstName} ${lastName}`;
+    const { "first-name": fname, "last-name": lname, email, meet, other } = req.body;
+    const fullName = `${fname} ${lname}`;
     const timestamp = new Date().toLocaleString();
-    
-    const query = 'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)';
-    const message = otherSpecify ? `Met via: ${howWeMet} (${otherSpecify})` : `Met via: ${howWeMet}`;
-    
-    await pool.execute(query, [fullName, email, message]);
 
-    res.render("confirmation", { 
-      user: { 
-        firstName, 
-        lastName, 
-        email, 
-        howWeMet, 
-        otherSpecify, 
-        timestamp,
-        mailingList: mailingList === 'on'
-      } 
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Database Error");
-  }
+    try {
+        // Save to DB
+        await pool.execute(
+            'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)',
+            [fullName, email, other || meet]
+        );
+
+        // Send to confirmation page
+        res.render("confirmation", { 
+            user: { 
+                firstName: fname, 
+                timestamp: timestamp, 
+                email: email, 
+                howWeMet: meet,
+                otherSpecify: other 
+            } 
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error saving submission");
+    }
 });
 
 app.post('/contact', async (req, res) => {
