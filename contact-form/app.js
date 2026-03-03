@@ -88,7 +88,7 @@ app.get('/admin', async (req, res) => {
         res.render('admin', { users: rows }); 
     } catch (err) {
         console.error(err);
-        res.status(500).send("Error loading admin page");
+        res.status(500).send("Database Error");
     }
 });
 
