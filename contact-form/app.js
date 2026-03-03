@@ -33,14 +33,35 @@ app.get("/contact", (req, res) => {
 });
 
 app.post("/submit", async (req, res) => {
-  const { "first-name": firstName, "last-name": lastName, email, meet: howWeMet } = req.body;
+  const { 
+    "first-name": firstName, 
+    "last-name": lastName, 
+    email, 
+    meet: howWeMet, 
+    other: otherSpecify,
+    "mailing-list": mailingList 
+  } = req.body;
 
   try {
-    const query = 'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)';
     const fullName = `${firstName} ${lastName}`;
-    await pool.execute(query, [fullName, email, howWeMet]);
+    const timestamp = new Date().toLocaleString();
+    
+    const query = 'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)';
+    const message = otherSpecify ? `Met via: ${howWeMet} (${otherSpecify})` : `Met via: ${howWeMet}`;
+    
+    await pool.execute(query, [fullName, email, message]);
 
-    res.render("confirmation", { user: { firstName, lastName } });
+    res.render("confirmation", { 
+      user: { 
+        firstName, 
+        lastName, 
+        email, 
+        howWeMet, 
+        otherSpecify, 
+        timestamp,
+        mailingList: mailingList === 'on'
+      } 
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Database Error");
