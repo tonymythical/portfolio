@@ -58,8 +58,10 @@ app.post('/contact', async (req, res) => {
     }
 });
 
-app.get("/admin", (req, res) => {
-  res.render("admin", { users: guestbookUsers });
+app.get('/admin', async (req, res) => {
+    const [rows] = await pool.query('SELECT * FROM contacts ORDER BY created_at DESC');
+    
+    res.render('admin', { contacts: rows });
 });
 
 app.listen(PORT, () => {
