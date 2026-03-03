@@ -12,7 +12,7 @@ const PORT = 3010;
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'Test',
-  password: 'your_password',
+  password: 'Tonezone01',
   database: 'portfolio_db'
 });
 
