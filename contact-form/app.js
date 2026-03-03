@@ -6,7 +6,7 @@ const app = express();
 const PORT = 3010;
 const pool = mysql.createPool({
   host: 'localhost',
-  user: 'your_username',
+  user: 'Test',
   password: 'your_password',
   database: 'portfolio_db'
 });
