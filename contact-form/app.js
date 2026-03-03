@@ -1,19 +1,25 @@
 import express from "express";
 import path from "path";
 import mysql from "mysql2/promise";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = 3010;
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'Test',
-  password: 'your_password',
+  password: 'Tonezone01',
   database: 'portfolio_db'
 });
 
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 
 const guestbookUsers = [];
