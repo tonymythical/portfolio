@@ -25,8 +25,6 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 
-const guestbookUsers = [];
-
 app.get("/", (req, res) => {
   res.render("home");
 });
@@ -38,42 +36,24 @@ app.get("/contact", (req, res) => {
 app.post("/submit", async (req, res) => {
     const { "first-name": fname, "last-name": lname, email, meet, other } = req.body;
     const fullName = `${fname} ${lname}`;
-    const timestamp = new Date().toLocaleString();
+    const finalMessage = other || meet; // Use 'other' if they typed it, otherwise 'meet'
 
     try {
-        // Save to DB
-        await pool.execute(
-            'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)',
-            [fullName, email, other || meet]
-        );
+        const sql = 'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)';
+        await pool.execute(sql, [fullName, email, finalMessage]);
 
-        // Send to confirmation page
         res.render("confirmation", { 
             user: { 
                 firstName: fname, 
-                timestamp: timestamp, 
+                timestamp: new Date().toLocaleString(), 
                 email: email, 
                 howWeMet: meet,
                 otherSpecify: other 
             } 
         });
     } catch (err) {
-        console.error(err);
-        res.status(500).send("Error saving submission");
-    }
-});
-
-app.post('/contact', async (req, res) => {
-    const { name, email, message } = req.body;
-    
-    try {
-        const query = 'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)';
-        await pool.execute(query, [name, email, message]);
-        
-        res.render('confirmation', { name });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Server Error");
+        console.error("Database Error:", err);
+        res.status(500).send("Could not save to guestbook.");
     }
 });
 

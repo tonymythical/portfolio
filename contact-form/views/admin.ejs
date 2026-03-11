@@ -26,8 +26,9 @@
                 <tbody>
                     <% users.forEach(user => { %>
                         <tr>
-                            <td><%= user.id %></td>
-                            <td><%= user.created_at %></td> <td><%= user.name %></td>       <td><%= user.email %></td>
+                            <td><%= user.created_at ? new Date(user.created_at).toLocaleString() : 'N/A' %></td>
+                            <td><%= user.name %></td>
+                            <td><%= user.email %></td>
                             <td><%= user.message %></td>
                         </tr>
                     <% }) %>
