@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Anthony Margullis</title>
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="icon" type="image/x-icon" href="/styles/favicon.ico">
+</head>
+<body>
+    <%- include('partials/nav') %>
+
+    <main class="container">
+        <header class="portfolio-header">
+            <h1>Technical Projects</h1>
+            <p>A showcase of my work in Software Development and Data Analytics.</p>
+        </header>
+
+        <div class="portfolio-grid">
+            <section class="project-card">
+                <div class="project-content">
+                    <h2>Guestbook & Personal Portfolio</h2>
+                    <p class="tagline">SDEV 305: Web Development with Frameworks</p>
+                    <p><strong>Technologies:</strong> Node.js, Express, EJS, MySQL, PM2, DigitalOcean, CSS3.</p>
+                    <p><strong>My Role:</strong> Full-stack developer. Designed the database schema, implemented server-side validation, and managed deployment on a Linux VPS.</p>
+                    
+                    <div class="project-links">
+                        <a href="https://github.com/tonymythical/portfolio" class="btn-link">GitHub Repo</a>
+                        <span class="live-status">Live (Current Site)</span>
+                    </div>
+                </div>
+                <div class="project-image">
+                    <img src="/images/brave_screenshot_localhost (1).png" alt="Screenshot of the Anthony Margullis portfolio home page showing the summary and contact sections">
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div class="project-content">
+                    <h2>Disc Golf Marketplace</h2>
+                    <p class="tagline">SDEV 280: Capstone</p>
+                    <p><strong>Technologies:</strong> Node.js, Agile/Scrum, Git, Express.</p>
+                    <p><strong>My Role:</strong> Collaborated in a 4-person team as a backend contributor. Responsible for managing GitHub workflows and implementing search functionality over a 3-week sprint.</p>
+                    
+                    <div class="project-links">
+                        <a href="https://github.com/tonymythical/PDGA-TD-Marketplace-Mockup" class="btn-link">GitHub Repo</a>
+                    </div>
+                </div>
+                <div class="project-image">
+                    <img src="/images/Image 3-13-26 at 4.42 PM copy.png" alt="Screenshot of the Disc Golf Marketplace interface showing product listings and search filters">
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div class="project-content">
+                    <h2>GBA Engine Development</h2>
+                    <p class="tagline">SDEV 301: Systems Programming</p>
+                    <p><strong>Technologies:</strong> C++, Butano Engine, GBA Hardware.</p>
+                    <p><strong>My Role:</strong> Solo Developer. Experimented with low-level memory management, sprite rendering, and mathematical optimizations for retro-handheld hardware.</p>
+                    
+                    <div class="project-links">
+                        <a href="https://github.com/tonymythical/microjam" class="btn-link">GitHub Repo</a>
+                    </div>
+                </div>
+                <div class="project-image">
+                    <img src="/images/Image 3-13-26 at 4.36 PM.png" alt="Screenshot of a Game Boy Advance emulator showing custom sprite work and Butano engine test environment">
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>
