@@ -73,9 +73,10 @@ app.post("/submit", async (req, res) => {
     const first_name = req.body['first-name']?.trim();
     const last_name = req.body['last-name']?.trim();
     const email = req.body.email?.trim();
-    const comments = req.body.comment?.trim(); // Matches your 'comments' column
-    const mailing_list = req.body['mailing-list'] ? 1 : 0; // Checkbox to TinyInt
-    const email_format = req.body.format; // Matches your 'email_format' column
+    const comments = req.body.comments?.trim();
+    const meet = req.body.meet;
+    const mailing_list = req.body['mailing-list'] ? 1 : 0;
+    const email_format = req.body.format;
 
     let errors = [];
 
@@ -93,11 +94,11 @@ app.post("/submit", async (req, res) => {
 
     try {
         const query = `
-            INSERT INTO contacts (first_name, last_name, email, mailing_list, comments, email_format) 
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO contacts (first_name, last_name, email, mailing_list, comments, email_format, how_met) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)
         `;
         
-        await pool.query(query, [first_name, last_name, email, mailing_list, comments, email_format]);
+        await pool.query(query, [first_name, last_name, email, mailing_list, comments, email_format, meet]);
         req.session.submittedUser = {
             firstName: first_name,
             timestamp: new Date().toLocaleString()

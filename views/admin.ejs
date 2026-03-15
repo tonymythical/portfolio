@@ -25,20 +25,26 @@
                         <th style="padding: 10px; border: 1px solid #ddd;">Date</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <% users.forEach(user => { %>
-                        <tr>
-                            <td style="padding: 10px; border: 1px solid #ddd;"><%= user.name %></td>
-                            <td style="padding: 10px; border: 1px solid #ddd;"><%= user.email %></td>
-                            <td style="padding: 10px; border: 1px solid #ddd;"><%= user.message %></td>
-                            <td style="padding: 10px; border: 1px solid #ddd;"><%= user.email_format %></td> 
-                            <td style="padding: 10px; border: 1px solid #ddd;"><%= user.comments %></td>
-                            <td style="padding: 10px; border: 1px solid #ddd;">
-                                <%= user.created_at ? new Date(user.created_at).toLocaleString() : 'N/A' %>
-                            </td>
-                        </tr>
-                    <% }) %>
-                </tbody>
+               <tbody>
+                <% users.forEach(user => { %>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">
+                            <%= user.first_name %> <%= user.last_name %>
+                        </td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><%= user.email %></td>
+                        
+                        <td style="padding: 10px; border: 1px solid #ddd;">
+                            <%= user.how_met %> <%= user.mailing_list ? '(Mailing List)' : '' %>
+                        </td>
+                        
+                        <td style="padding: 10px; border: 1px solid #ddd;"><%= user.email_format %></td> 
+                        <td style="padding: 10px; border: 1px solid #ddd;"><%= user.comments %></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">
+                            <%= user.created_at ? new Date(user.created_at).toLocaleString() : 'N/A' %>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
             </table>
         <% } %>
     </main>
