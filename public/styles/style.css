@@ -239,8 +239,51 @@ a {
     margin-top: 1rem;
 }
 
+/* Mobile Optimization */
 @media (max-width: 768px) {
-    .project-card {
-        grid-template-columns: 1fr;
+    .container {
+        width: 95%;
+        padding: 10px;
+    }
+
+    .grid-container, 
+    .mid-grid {
+        grid-template-columns: 1fr !important;
+        gap: 15px;
+    }
+
+    .contact-form {
+        padding: 20px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    select,
+    textarea {
+        font-size: 16px;
+        width: 100%;
+    }
+
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+    
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr {
+        border: 1px solid #444;
+        margin-bottom: 10px;
+    }
+
+    td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
     }
 }
