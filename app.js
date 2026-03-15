@@ -59,39 +59,54 @@ app.get("/contact", (req, res) => {
   res.render("contact");
 });
 
+app.get("/confirmation", (req, res) => {
+    const userData = req.session.submittedUser;
+
+    if (!userData) {
+        return res.redirect("/contact");
+    }
+
+    res.render("confirmation", { user: userData });
+});
+
 app.post("/submit", async (req, res) => {
-    let { "first-name": fname, "last-name": lname, email, meet, other, "mailing-list": mailingList, format } = req.body;
-    
+    const first_name = req.body['first-name']?.trim();
+    const last_name = req.body['last-name']?.trim();
+    const email = req.body.email?.trim();
+    const comments = req.body.comment?.trim(); // Matches your 'comments' column
+    const mailing_list = req.body['mailing-list'] ? 1 : 0; // Checkbox to TinyInt
+    const email_format = req.body.format; // Matches your 'email_format' column
+
     let errors = [];
-    const validOptions = ['meetup', 'job-fair', 'other'];
 
-    fname = fname?.trim();
-    lname = lname?.trim();
-    if (!fname || !lname) errors.push("First and last name are required.");
-
-    if (!validOptions.includes(meet)) errors.push("Please select a valid 'How we met' option.");
-
-    if (mailingList && !['html', 'text'].includes(format)) {
-        errors.push("Please select a valid email format for the mailing list.");
+    // Simple Server-Side Validation
+    if (!first_name || !last_name) {
+        errors.push("Names cannot be empty or just spaces.");
+    }
+    if (mailing_list && !email) {
+        errors.push("Email is required for the mailing list.");
     }
 
     if (errors.length > 0) {
         return res.render("contact", { errors, formData: req.body });
     }
-    
-    const fullName = `${fname} ${lname}`;
-    const metVia = (meet === 'other') ? other : meet;
 
     try {
-        const sql = 'INSERT INTO contacts (name, email, message, comments, email_format) VALUES (?, ?, ?, ?, ?)';
-        await pool.execute(sql, [fullName, email, metVia, comments, format]);
-
-        res.render("confirmation", { 
-            user: { firstName: fname, timestamp: new Date().toLocaleString(), email, howWeMet: metVia } 
-        });
+        const query = `
+            INSERT INTO contacts (first_name, last_name, email, mailing_list, comments, email_format) 
+            VALUES (?, ?, ?, ?, ?, ?)
+        `;
+        
+        await pool.query(query, [first_name, last_name, email, mailing_list, comments, email_format]);
+        req.session.submittedUser = {
+            firstName: first_name,
+            timestamp: new Date().toLocaleString()
+        };
+        
+        res.redirect("/confirmation"); 
     } catch (err) {
-        console.error(err);
-        res.status(500).send("Error saving data.");
+        console.error("Database Error:", err);
+        res.status(500).send("There was an error saving your information.");
     }
 });
 
@@ -99,8 +114,10 @@ app.get('/admin', async (req, res) => {
     if (!req.session.authenticated) {
         return res.redirect('/login');
     }
+    
     try {
         const [rows] = await pool.query('SELECT * FROM contacts ORDER BY created_at DESC');
+        
         res.render('admin', { users: rows }); 
     } catch (err) {
         console.error(err);
