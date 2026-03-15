@@ -101,6 +101,10 @@ app.post("/submit", async (req, res) => {
         await pool.query(query, [first_name, last_name, email, mailing_list, comments, email_format, meet]);
         req.session.submittedUser = {
             firstName: first_name,
+            lastName: last_name,       
+            email: email,             
+            howMet: meet,         
+            mailingList: mailing_list,
             timestamp: new Date().toLocaleString()
         };
         

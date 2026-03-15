@@ -16,7 +16,7 @@
         
             <section class="submission-details">
                 <p><strong>Email:</strong> <%= user.email %></p>
-                <p><strong>How we met:</strong> <%= user.howWeMet %> <%= user.otherSpecify ? `(${user.otherSpecify})` : '' %></p>
+                <p><strong>How we met:</strong> <%= user.howMet || 'Not specified' %></p>
                 <p><strong>Mailing List:</strong> <%= user.mailingList ? 'Yes' : 'No' %></p>
             </section>
 

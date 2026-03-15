@@ -286,4 +286,48 @@ a {
         padding-left: 50%;
         text-align: right;
     }
+
+    .portfolio-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+   .project-card {
+        grid-template-columns: 1fr !important;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column; 
+        align-items: center;
+        text-align: center;
+    }
+
+    .project-image {
+        width: 90%; 
+        margin: 0 auto 1rem auto;
+    }
+
+    .project-image img {
+        width: 100%; 
+        height: auto;
+        max-width: 450px; 
+        display: block;
+        margin: 0 auto;
+        border-radius: 6px;
+        position: static; 
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .project-content {
+        width: 100%;
+    }
+
+    .project-card h3, 
+    .project-card p,
+    .project-card .tagline {
+        text-align: center;
+    }
+   
+  
 }
