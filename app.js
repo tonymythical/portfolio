@@ -42,6 +42,7 @@ app.get("/portfolio", (req, res) => {
 });
 
 app.post('/login', (req, res) => {
+    console.log("LOGIN ROUTE TRIGGERED");
     const { username, password } = req.body;
     if (username === process.env.ADMIN_USER && password === process.env.ADMIN_PASS) {
         req.session.authenticated = true;
