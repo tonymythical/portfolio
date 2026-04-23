@@ -28,9 +28,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || 'temp',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false
 }));
 
 app.get('/login', (req, res) => {
